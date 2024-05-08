@@ -1,0 +1,146 @@
+CREATE database college;
+
+use college;
+
+drop database if exists temp2;
+create table student(
+  id int primary key,
+  name varchar(50),
+  age int not null);
+  insert into student values(15,"sohana",24);
+
+
+  
+  select *from student; 
+  show databases;
+  show tables;
+  
+  
+  DROP TABLE IF EXISTS student;
+  
+  CREATE TABLE student(
+      rollno INT PRIMARY KEY,
+      name VARCHAR(50)
+  );
+  
+CREATE TABLE department(
+       id INT PRIMARY KEY,
+       name VARCHAR(50)
+);
+INSERT INTO department
+(id,name)
+VALUES
+(101,"English"),
+(102,"CSE");
+UPDATE department
+SET id=103
+WHERE id=101;
+
+DROP TABLE teacher;
+CREATE TABLE teacher(
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    dept_id INT,
+	FOREIGN KEY(dept_id) references department(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+);  
+
+SELECT * FROM teacher;
+INSERT INTO teacher
+(id,dept_id,name)
+VALUES
+(101,101,"Raka"),
+(102,102,"Sohana");
+
+SELECT *FROM student;
+INSERT INTO student
+(rollno,name)
+VALUES
+(12,"Sohana"),
+(23,"Sadia"),
+(122,"danish");
+
+
+SELECT *FROM student;
+
+ALTER TABLE student
+ADD COLUMN age INT NOT NULL DEFAULT 18;
+
+ALTER TABLE student
+MODIFY COLUMN age VARCHAR(20) DEFAULT "TEN";
+
+ALTER TABLE student
+CHANGE age student_age INT DEFAULT 20;
+
+CREATE TABLE course(
+  student_id INT PRIMARY KEY,
+  name VARCHAR(20)
+);
+
+INSERT INTO course
+(student_id,name)
+VALUES
+(12,"English"),
+(122,"Bangla"),
+(15,"CSE");
+
+ALTER TABLE course
+RENAME to course_info;
+SELECT * FROM course_info;
+
+
+SELECT *
+FROM student
+INNER JOIN course_info
+ON student.rollno=course_info.student_id;
+
+SELECT *
+FROM student as s
+LEFT JOIN course_info as ci
+ON s.rollno=ci.student_id;
+
+
+SELECT *
+FROM student as a 
+LEFT JOIN course_info as ci
+ON a.rollno=ci.student_id
+WHERE ci.student_id IS NULL
+UNION
+SELECT *
+FROM student as a 
+RIGHT JOIN course_info as ci
+ON a.rollno=ci.student_id
+WHERE a.rollno IS NULL;
+
+
+CREATE TABLE employee(
+   id INT PRIMARY KEY,
+   name VARCHAR(50),
+   manager_id INT
+);
+INSERT INTO employee
+(id,name,manager_id)
+VALUES
+(101,"Rubaiya",NULL),
+(102,"Sadia",101),
+(103,"Syeda",102),
+(104,"Rohini",102);
+
+SELECT a.name as manager_name,b.name
+FROM employee as a
+JOIN employee as b
+ON a.id=b.manager_id;
+
+
+SELECT name FROM employee
+UNION ALL
+SELECT name FROM employee;
+
+
+CREATE VIEW view1 AS
+SELECT rollno,name FROM student;
+
+SELECT * FROM view1;
+
+
